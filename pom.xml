@@ -5,7 +5,7 @@
 
     <groupId>com.int492.cifarclssfr</groupId>
     <artifactId>cifarwebservice</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <packaging>war</packaging>
 
     <name>cifarwebservice</name>
@@ -19,6 +19,7 @@
     </parent>
 
     <properties>
+        <start-class>com.int492.cifarclssfr.cifarwebservice.CifarwebserviceApplication</start-class>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
@@ -44,6 +45,11 @@
             <scope>test</scope>
         </dependency>
         
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
