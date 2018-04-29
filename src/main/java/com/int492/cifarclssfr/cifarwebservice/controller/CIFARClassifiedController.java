@@ -62,9 +62,10 @@ public class CIFARClassifiedController {
     @RequestMapping(value = "classified", method = RequestMethod.POST)
     @ResponseBody
     public String classifiedCIFAR(HttpSession session, InputStream dataStream) throws IOException, InterruptedException {
-        String sessionId = session.getId();
+        long curTimemillis = System.currentTimeMillis();
+        String sessionId = session.getId()+curTimemillis;
         String outputPath = env.getRequiredProperty("target.file.save");
-        String fileName = sessionId + System.currentTimeMillis() + ".png";
+        String fileName = sessionId + ".png";
 
         saveFile(dataStream, outputPath, fileName);
         recordToRedis(sessionId, outputPath, fileName);
@@ -79,6 +80,9 @@ public class CIFARClassifiedController {
             System.out.println("-------------------CHECK REDIS-------------------");
             result = getResultClassified(sessionId);
             System.out.println("Result : "+ result);
+            if(result != null){
+                deleteResultClassified(sessionId);
+            }
             counter++;
         }while(result == null);
 
@@ -116,5 +120,9 @@ public class CIFARClassifiedController {
         ValueOperations<String, String> ops = this.template.opsForValue();
         String result = ops.get(sessionId);
         return result;
+    }
+    
+    private void deleteResultClassified(String sessionId){
+        this.template.delete(sessionId);
     }
 }
